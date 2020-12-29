@@ -53,6 +53,8 @@ func (hook *StdDemuxerHook) Fire(entry *logrus.Entry) error {
 
 	switch entry.Level {
 	// stderr
+	case logrus.WarnLevel:
+		hook.stdErrLogger.WithFields(entry.Data).Warn(entry.Message)
 	case logrus.ErrorLevel:
 		hook.stdErrLogger.WithFields(entry.Data).Error(entry.Message)
 	case logrus.PanicLevel:
@@ -64,8 +66,6 @@ func (hook *StdDemuxerHook) Fire(entry *logrus.Entry) error {
 		hook.stdOutLogger.WithFields(entry.Data).Debug(entry.Message)
 	case logrus.InfoLevel:
 		hook.stdOutLogger.WithFields(entry.Data).Info(entry.Message)
-	case logrus.WarnLevel:
-		hook.stdOutLogger.WithFields(entry.Data).Warn(entry.Message)
 	}
 
 	return nil
